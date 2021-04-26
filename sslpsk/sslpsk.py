@@ -51,11 +51,11 @@ def _sslobj(sock):
     functions interface.
 
     """
-    pass
-    if isinstance(sock._sslobj, _ssl._SSLSocket):
-        return sock._sslobj
-    else:
+    if (3, 5) <= sys.version_info <= (3, 7):
         return sock._sslobj._sslobj
+    else:
+        return sock._sslobj
+sslpsk.sslpsk._sslobj = _sslobj
 
 def _python_psk_server_callback(ssl_id, identity):
     """Called by _sslpsk.c to return the psk for the socket with the specified
